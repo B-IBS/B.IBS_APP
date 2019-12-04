@@ -1,3 +1,0 @@
-# bibs
-
-B.IBS application
