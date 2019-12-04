@@ -1,11 +1,3 @@
----
-name: Pull Request
-about: Propose a pull request
-title: "[PULL REQUEST]"
-labels: Pull Request
-assignees: ''
----
-
 ## **Issue being fixed**
 Fixes #*IssueNumber*
 
