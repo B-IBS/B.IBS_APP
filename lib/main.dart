@@ -1,5 +1,6 @@
 import 'package:bibs/HomeScreen.dart';
 import 'package:bibs/LoginScreen.dart';
+import 'package:bibs/routes.dart';
 import 'package:flutter/material.dart';
 
 void main() => runApp(MyApp());
@@ -12,11 +13,27 @@ class MyApp extends StatelessWidget {
       theme: ThemeData(
         primarySwatch: Colors.blue,
       ),
-      initialRoute: '/login',
-      routes: {
-        '/': (context) => HomeScreen(),
-        '/login': (context) => LoginScreen(),
-      },
+      initialRoute: loginRoute,
+      onGenerateRoute: Router.generateRoute,
     );
+  }
+}
+
+class Router {
+  static Route<dynamic> generateRoute(RouteSettings settings) {
+    switch (settings.name) {
+      case homeRoute:
+        return MaterialPageRoute(builder: (_) => HomeScreen());
+      case loginRoute:
+        return MaterialPageRoute(builder: (_) => LoginScreen());
+      default:
+        return MaterialPageRoute(builder: (_) =>
+          Scaffold(
+            body: Center(
+              child: Text('No route defined for ${settings.name}')
+            )
+          )
+        );
+    }
   }
 }
