@@ -6,17 +6,17 @@ class LoginScreen extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: Colors.black,
-      body: LoginForm2()
+      body: LoginForm()
     );
   }
 }
 
-class LoginForm2 extends StatefulWidget {
+class LoginForm extends StatefulWidget {
   @override
-  LoginForm2State createState () => LoginForm2State();
+  LoginFormState createState () => LoginFormState();
 }
 
-class LoginForm2State extends State<LoginForm2> {
+class LoginFormState extends State<LoginForm> {
   final _formKey = GlobalKey<FormState>();
   bool _isSignin = false;
   final _loginController = TextEditingController();
@@ -129,5 +129,6 @@ class LoginForm2State extends State<LoginForm2> {
   void loginToServer() {
     print('Login: ' + _loginController.text);
     print('Password: ' + _passwordController.text);
+    Navigator.pushReplacementNamed(context, '/');
   }
 }

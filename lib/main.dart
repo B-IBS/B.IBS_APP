@@ -1,4 +1,4 @@
-import 'package:bibs/HomeScreen.dart';
+import 'package:bibs/Navigation.dart';
 import 'package:bibs/LoginScreen.dart';
 import 'package:bibs/routes.dart';
 import 'package:flutter/material.dart';
@@ -23,7 +23,7 @@ class Router {
   static Route<dynamic> generateRoute(RouteSettings settings) {
     switch (settings.name) {
       case homeRoute:
-        return MaterialPageRoute(builder: (_) => HomeScreen());
+        return MaterialPageRoute(builder: (_) => NavigationScreen());
       case loginRoute:
         return MaterialPageRoute(builder: (_) => LoginScreen());
       default:
