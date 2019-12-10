@@ -5,10 +5,11 @@ import 'Navigation.dart';
 class HomeScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
-    return Container(
+
+     return Container(
       child: Center(
         child: Column(
-          mainAxisAlignment: MainAxisAlignment.start,
+          mainAxisAlignment: MainAxisAlignment.center,
           children: <Widget>[
             Container(
               padding: EdgeInsets.only(left: 75, right: 75, top: 50),
@@ -20,7 +21,7 @@ class HomeScreen extends StatelessWidget {
               width: 70.0,
               height: 70.0,
               child: FloatingActionButton(
-                backgroundColor: Color.fromARGB(255,136,190,140),
+                backgroundColor: Color.fromARGB(255, 136, 190, 140),
                 child: Icon(Icons.healing),
                 onPressed: () {
                   Navigator.pushReplacementNamed(context, '/login');
@@ -34,6 +35,6 @@ class HomeScreen extends StatelessWidget {
           ],
         ),
       )
-    );
+  );
   }
 }

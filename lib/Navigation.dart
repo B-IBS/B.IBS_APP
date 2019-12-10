@@ -15,6 +15,7 @@ class NavigationScreenState extends State<NavigationScreen> {
     HomeScreen(),
     ModulesScreen(),
     AccountScreen(),
+    ModulesScreen(),
   ];
 
   @override
@@ -27,21 +28,25 @@ class NavigationScreenState extends State<NavigationScreen> {
           child: _children[currentIndex]
         ),
         bottomNavigationBar: BottomNavigationBar(
-          unselectedItemColor: Colors.grey,
+          unselectedItemColor: Color.fromARGB(255, 136, 190, 140),
           selectedItemColor: Colors.black,
           currentIndex: currentIndex,
           items: [
             BottomNavigationBarItem(
-              icon: Icon(Icons.home),
-              title: Text('Home'),
-            ),
-            BottomNavigationBarItem(
-              icon: Icon(Icons.search),
-              title: Text('Modules'),
-            ),
-            BottomNavigationBarItem(
-              icon: Icon(Icons.person),
+              icon: Icon(Icons.account_circle),
               title: Text('Account'),
+            ),
+            BottomNavigationBarItem(
+              icon: Icon(Icons.access_time),
+              title: Text('Today'),
+            ),
+            BottomNavigationBarItem(
+              icon: Icon(Icons.show_chart),
+              title: Text('Analysis'),
+            ),
+            BottomNavigationBarItem(
+              icon: Icon(Icons.menu),
+              title: Text('Modules'),
             )
           ],
           onTap: (int index) {
