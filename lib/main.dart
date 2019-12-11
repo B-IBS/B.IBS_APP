@@ -1,3 +1,5 @@
+
+import 'package:bibs/ForgotPasswordScreen.dart';
 import 'package:bibs/FodmapModule.dart';
 import 'package:bibs/Navigation.dart';
 import 'package:bibs/LoginScreen.dart';
@@ -30,6 +32,8 @@ class Router {
         return MaterialPageRoute(builder: (_) => FodmapModule());
       case loginRoute:
         return MaterialPageRoute(builder: (_) => LoginScreen());
+      case forgotPwdRoute:
+        return MaterialPageRoute(builder: (_) => ForgotPasswordScreen());
       default:
         return MaterialPageRoute(builder: (_) =>
           Scaffold(

@@ -48,6 +48,7 @@ class LoginFormState extends State<LoginForm> {
               child: Column(
                 children: <Widget>[
                   formField(text: "Email", icon: Icon(Icons.person, color: Colors.grey[600]), controller: _loginController, obscure: false),
+                  clickableLink("forgot password ?", "/forgot-pass"),
                   formField(text: "Password", icon: Icon(Icons.lock, color: Colors.grey[600]), controller: _passwordController, obscure: true),
                   passwordConfirmField(text: "Confirm Password", icon: Icon(Icons.lock, color: Colors.grey[600]), controller: _passwordConfirmController, obscure: true),
                   Container(
@@ -130,5 +131,19 @@ class LoginFormState extends State<LoginForm> {
     print('Login: ' + _loginController.text);
     print('Password: ' + _passwordController.text);
     Navigator.pushReplacementNamed(context, '/');
+  }
+
+  GestureDetector clickableLink(String text, String route) {
+    return new GestureDetector(
+      onTap: () {
+        Navigator.pushNamed(context, route);
+      },
+      child: new Text(
+        text,
+        style: TextStyle(
+          decoration: TextDecoration.underline,
+        ),
+      ),
+    );
   }
 }
