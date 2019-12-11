@@ -1,12 +1,10 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'Navigation.dart';
 
 class HomeScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
-
-     return Container(
+    return Container(
       child: Center(
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
@@ -35,6 +33,6 @@ class HomeScreen extends StatelessWidget {
           ],
         ),
       )
-  );
+    );
   }
 }
