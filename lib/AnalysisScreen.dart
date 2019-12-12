@@ -4,7 +4,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:charts_flutter/flutter.dart' as charts;
 
-var intensity_data = [
+var intensityData = [
   new Crisis(DateTime.utc(2019, 12, 1), 5, bibsGreen),
   new Crisis(DateTime.utc(2019, 12, 5), 7, bibsGreen),
   new Crisis(DateTime.utc(2019, 12, 7), 6, bibsGreen),
@@ -55,14 +55,14 @@ class HistoryCharts extends StatefulWidget {
 }
 
 class HistoryChartsState extends State<HistoryCharts> {
-  Duration current_duration = Duration(days: 7);
-  DateTime window_min = DateTime.now().subtract(Duration(days: 7));
-  DateTime window_max = DateTime.now();
+  Duration currentDuration = Duration(days: 7);
+  DateTime windowMin = DateTime.now().subtract(Duration(days: 7));
+  DateTime windowMax = DateTime.now();
 
-  List<Crisis> data_window() {
-    var filtered_data = intensity_data.sublist(0);
-    filtered_data.retainWhere((elem) => elem.date.isAfter(window_min) && elem.date.isBefore(window_max));
-    return filtered_data;
+  List<Crisis> dataWindow() {
+    var filteredData = intensityData.sublist(0);
+    filteredData.retainWhere((elem) => elem.date.isAfter(windowMin) && elem.date.isBefore(windowMax));
+    return filteredData;
   }
 
   @override
@@ -70,7 +70,7 @@ class HistoryChartsState extends State<HistoryCharts> {
     List<charts.Series<Crisis, DateTime>> seriesList = [
       charts.Series<Crisis, DateTime>(
         id: 'Intensity',
-        data: data_window(),
+        data: dataWindow(),
         domainFn: (Crisis crisis, _) => crisis.date,
         measureFn: (Crisis crisis, _) => crisis.intensity,
         colorFn: (Crisis crisis, _) => crisis.color,
@@ -109,14 +109,14 @@ class HistoryChartsState extends State<HistoryCharts> {
       child: InkWell(
         onTap: () {
           setState(() {
-            window_min = DateTime.now().subtract(duration);
-            current_duration = duration;
+            windowMin = DateTime.now().subtract(duration);
+            currentDuration = duration;
           });
         },
         child: Container(
           decoration: BoxDecoration(
             border: Border.all(color: bibsGreen),
-            color: duration == current_duration ? bibsGreen : Colors.transparent
+            color: duration == currentDuration ? bibsGreen : Colors.transparent
           ),
           padding: EdgeInsets.symmetric(vertical: 10, horizontal: 5),
           child: Center(

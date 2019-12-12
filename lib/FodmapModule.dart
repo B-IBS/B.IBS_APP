@@ -54,14 +54,14 @@ class FodmapModuleState extends State<FodmapModule> {
 
   Widget renderList() {
     if (searchController.text.length == 0)
-      return CategoryList();
+      return categoryList();
     else if (searchController.text.startsWith('category:'))
-      return SearchCategoryList();
+      return searchCategoryList();
     else
-      return SearchList();
+      return searchList();
   }
 
-  Widget CategoryList() {
+  Widget categoryList() {
     return ListView.builder(
       shrinkWrap: true,
       itemCount: fodmap.length,
@@ -90,7 +90,7 @@ class FodmapModuleState extends State<FodmapModule> {
     );
   }
 
-  Widget SearchCategoryList() {
+  Widget searchCategoryList() {
     search = [];
     var categoryName = searchController.text.substring('category:'.length);
     var result = fodmap.firstWhere((elem) => elem['name'].toString().toLowerCase() == categoryName, orElse: () => {});
@@ -102,10 +102,10 @@ class FodmapModuleState extends State<FodmapModule> {
     setState(() {
       search = search;
     });
-    return SearchList();
+    return searchList();
   }
 
-  Widget SearchList() {
+  Widget searchList() {
     return ListView.builder(
       shrinkWrap: true,
       itemCount: search.length,

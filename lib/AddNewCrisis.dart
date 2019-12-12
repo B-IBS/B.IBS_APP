@@ -39,7 +39,7 @@ class AddNewCrisisState extends State<AddNewCrisis> {
       ),
       floatingActionButton: FloatingActionButton(
         onPressed: () {
-          intensity_data.add(Crisis(DateTime.utc(selectedDate.year, selectedDate.month, selectedDate.day, selectedTime.hour, selectedTime.minute), (intensity / 10).floor(), bibsGreen));
+          intensityData.add(Crisis(DateTime.utc(selectedDate.year, selectedDate.month, selectedDate.day, selectedTime.hour, selectedTime.minute), (intensity / 10).floor(), bibsGreen));
           Navigator.pop(context);
         },
         child: Icon(Icons.done),
