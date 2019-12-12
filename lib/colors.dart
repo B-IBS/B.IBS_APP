@@ -15,3 +15,4 @@ const Map<int, Color> ColorMap =
 };
 
 MaterialColor bibsGreen = MaterialColor(0xFF88BE8C, ColorMap);
+Color bibsGreenColor = Color.fromARGB(255, 136, 190, 140);

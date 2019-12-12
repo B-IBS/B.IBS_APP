@@ -23,11 +23,6 @@ class ModulesScreen extends StatelessWidget {
                   title: Text('Track the fodmap in your food to avoid those who will trigger your symptoms.'),
                   onTap: () { changeScreen(context, '/modules/fodmap'); },
                 ),
-                ListTile(
-                  leading: Text('PAMDOF'),
-                  title: Text('acac ud erutarepmet al sey seY'),
-                  onTap: () {},
-                ),
               ],
             )
           ],

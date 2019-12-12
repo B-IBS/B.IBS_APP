@@ -1,6 +1,7 @@
-import 'package:bibs/AccountScreen.dart';
+import 'package:bibs/AnalysisScreen.dart';
 import 'package:bibs/HomeScreen.dart';
 import 'package:bibs/ModulesScreen.dart';
+import 'package:bibs/RecapScreen.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 
@@ -13,8 +14,8 @@ class NavigationScreenState extends State<NavigationScreen> {
   var currentIndex = 0;
   var _children = [
     HomeScreen(),
-    ModulesScreen(),
-    AccountScreen(),
+    RecapScreen(),
+    AnalysisScreen(),
     ModulesScreen(),
   ];
 
