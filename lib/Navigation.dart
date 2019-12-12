@@ -34,8 +34,8 @@ class NavigationScreenState extends State<NavigationScreen> {
           currentIndex: currentIndex,
           items: [
             BottomNavigationBarItem(
-              icon: Icon(Icons.account_circle),
-              title: Text('Account'),
+              icon: Icon(Icons.home),
+              title: Text('Home'),
             ),
             BottomNavigationBarItem(
               icon: Icon(Icons.access_time),

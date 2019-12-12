@@ -38,6 +38,7 @@ class AddNewCrisisState extends State<AddNewCrisis> {
         elevation: 0,
       ),
       floatingActionButton: FloatingActionButton(
+        heroTag: 'add-crisis',
         onPressed: () {
           intensityData.add(Crisis(DateTime.utc(selectedDate.year, selectedDate.month, selectedDate.day, selectedTime.hour, selectedTime.minute), (intensity / 10).floor(), bibsGreen));
           Navigator.pop(context);

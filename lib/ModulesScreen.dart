@@ -1,3 +1,4 @@
+import 'package:bibs/routes.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 
@@ -20,7 +21,7 @@ class ModulesScreen extends StatelessWidget {
                 ListTile(
                   leading: Text('FODMAP'),
                   title: Text('Track the fodmap in your food to avoid those who will trigger your symptoms.'),
-                  onTap: () { changeScreen(context, '/modules/fodmap'); },
+                  onTap: () { changeScreen(context, fodmapRoute); },
                 ),
               ],
             )

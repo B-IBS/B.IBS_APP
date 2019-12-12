@@ -29,6 +29,7 @@ class AnalysisScreen extends StatelessWidget {
         ),
       ),
       floatingActionButton: FloatingActionButton(
+        heroTag: 'add-crisis',
         onPressed: () { Navigator.push(context, MaterialPageRoute(builder: (_) => AddNewCrisis())); },
         child: Icon(Icons.add),
         backgroundColor: bibsGreen,
@@ -79,6 +80,16 @@ class HistoryChartsState extends State<HistoryCharts> {
 
     return Column(
       children: <Widget>[
+        Row(
+          mainAxisAlignment: MainAxisAlignment.spaceAround,
+          children: <Widget>[
+            durationButton(Duration(days: 365), "Year"),
+            durationButton(Duration(days: 31 * 6), "6 months"),
+            durationButton(Duration(days: 31), "Month"),
+            durationButton(Duration(days: 7), "Week"),
+            durationButton(Duration(days: 1), "Today"),
+          ],
+        ),
         Container(
           padding: EdgeInsets.only(bottom: 20),
           child: SizedBox(
@@ -90,16 +101,6 @@ class HistoryChartsState extends State<HistoryCharts> {
             )
           ),
         ),
-        Row(
-          mainAxisAlignment: MainAxisAlignment.spaceAround,
-          children: <Widget>[
-            durationButton(Duration(days: 365), "Year"),
-            durationButton(Duration(days: 31 * 6), "6 months"),
-            durationButton(Duration(days: 31), "Month"),
-            durationButton(Duration(days: 7), "Week"),
-            durationButton(Duration(days: 1), "Today"),
-          ],
-        )
       ]
     );
   }
