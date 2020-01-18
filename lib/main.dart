@@ -1,6 +1,7 @@
 
 import 'package:bibs/ForgotPasswordScreen.dart';
 import 'package:bibs/FodmapModule.dart';
+import 'package:bibs/FoodCheckerModule.dart';
 import 'package:bibs/Navigation.dart';
 import 'package:bibs/LoginScreen.dart';
 import 'package:bibs/colors.dart';
@@ -30,6 +31,8 @@ class Router {
         return MaterialPageRoute(builder: (_) => NavigationScreen());
       case fodmapRoute:
         return MaterialPageRoute(builder: (_) => FodmapModule());
+      case foodCheckerRoute:
+        return MaterialPageRoute(builder: (_) => FoodCheckerModule());
       case loginRoute:
         return MaterialPageRoute(builder: (_) => LoginScreen());
       case forgotPwdRoute:

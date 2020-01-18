@@ -18,11 +18,8 @@ class ModulesScreen extends StatelessWidget {
             ListView(
               shrinkWrap: true,
               children: <Widget>[
-                ListTile(
-                  leading: Text('FODMAP'),
-                  title: Text('Track the fodmap in your food to avoid those who will trigger your symptoms.'),
-                  onTap: () { changeScreen(context, fodmapRoute); },
-                ),
+                moduleListTile('FODMAP', 'Track the fodmap.', () { changeScreen(context, fodmapRoute); }),
+                moduleListTile('Food Checker', 'Search and save your food.', () { changeScreen(context, foodCheckerRoute); }),
               ],
             )
           ],
@@ -33,5 +30,13 @@ class ModulesScreen extends StatelessWidget {
 
   void changeScreen(BuildContext context, String route) {
     Navigator.pushNamed(context, route);
+  }
+
+  Widget moduleListTile(String leading, String title, void Function() onTap) {
+    return ListTile(
+      leading: Text(leading),
+      title: Text(title),
+      onTap: onTap,
+    );
   }
 }

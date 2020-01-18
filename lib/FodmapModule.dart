@@ -123,7 +123,7 @@ class FodmapModuleState extends State<FodmapModule> {
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: <Widget>[
                 Expanded(
-                child: Text(search[index]['aliment'], style: TextStyle(fontSize: 30), softWrap: true,),
+                  child: Text(search[index]['aliment'], style: TextStyle(fontSize: 30), softWrap: true,),
                 ),
                 Container(
                   margin: EdgeInsets.symmetric(horizontal: 40),
