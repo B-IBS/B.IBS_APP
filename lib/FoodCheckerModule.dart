@@ -1,7 +1,10 @@
+import 'dart:convert';
+
 import 'package:barcode_scan/barcode_scan.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:http/http.dart' as http;
 import 'fodmap.dart';
 import 'dart:math';
 
@@ -108,6 +111,7 @@ class SearchFood extends StatefulWidget {
 
 class SearchFoodState extends State<SearchFood> {
   String barcode = "";
+  var jsonData = {}.cast<String, dynamic>();
 
   @override
   Widget build(BuildContext context) {
@@ -128,18 +132,108 @@ class SearchFoodState extends State<SearchFood> {
                     decoration: InputDecoration(hintText: 'Aliments'),
                   ),
                 ),
+                productData(),
               ],
             ),
           ),
         )));
   }
 
+  Widget productData() {
+    if (jsonData['status'] == null)
+      return Divider();
+    print(barcode);
+    print(jsonData['code']);
+    if (jsonData['status'] == 1 && jsonData['product'] != null) {
+      String name = getInArray(jsonData['product']['product_name'], '');
+      String brand = getInArray(jsonData['product']['brands'], '');
+      String imageUrl = getInArray(jsonData['product']['image_thumb_url'], '');
+      int fodmapLevel = getFodmapLevels();
+
+      return Container(
+        padding: EdgeInsets.symmetric(vertical: 10, horizontal: 20),
+        child: Column(
+          children: <Widget>[
+            Text('Scanned', style: TextStyle(fontWeight: FontWeight.bold, fontSize: 20),),
+            Divider(),
+            Row(
+              children: <Widget>[
+                Image.network(imageUrl),
+                Expanded(
+                  child: Container(
+                    padding: EdgeInsets.symmetric(horizontal: 10, vertical: 0),
+                    child: Column(
+                      mainAxisAlignment: MainAxisAlignment.start,
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: <Widget>[
+                        Text(name, style: TextStyle(fontSize: 25),),
+                        Text(brand, style: TextStyle(fontWeight: FontWeight.w900, fontSize: 20),),
+                      ],
+                    )
+                  ),
+                ),
+              ],
+            ),
+            Divider(),
+            Row(
+              children: <Widget>[
+                Text('Fodmap Level : ${fodmapLevel}'),
+              ],
+            )
+          ],
+        ),
+      );
+    } else {
+      return Container(
+        padding: EdgeInsets.symmetric(vertical: 10, horizontal: 10),
+        child: Row(
+          children: <Widget>[
+            Icon(Icons.help),
+            VerticalDivider(),
+            Text('Product not found.'),
+          ],
+        ),
+      );
+    }
+  }
+
+  int getFodmapLevels() {
+    int level = 0;
+    if (jsonData['product']['nutriments'] == null)
+      return -1;
+    double lactose = getInArray(jsonData['product']['nutriments']['lactose_100g'], -1).toDouble();
+    double fructose = getInArray(jsonData['product']['nutriments']['fructose_100g'], -1).toDouble();
+    double polyols = getInArray(jsonData['product']['nutriments']['polyols_100g'], -1).toDouble();
+    double glucose = getInArray(jsonData['product']['nutriments']['glucose_100g'], -1).toDouble();
+    if (glucose == -1)
+      glucose = getInArray(jsonData['product']['nutriments']['sugars_100g'], -1).toDouble();
+
+    if (polyols >= 0.40)
+      level += 1;
+    if (fructose >= 0.00 && glucose >= 0.00) {
+      double excessFructose = fructose - glucose;
+      if (excessFructose >= 0.15)
+        level += 1;
+    }
+    if (lactose >= 1.00)
+      level += 1;
+    return level;
+  }
+
+  dynamic getInArray(dynamic value, dynamic defaultValue) {
+    if (value == null)
+      return defaultValue;
+    return value;
+  }
+
   Future scan() async {
     try {
       String barcode = await BarcodeScanner.scan();
-      print(barcode);
+      final response = await http.Client().get('https://world.openfoodfacts.org/api/v0/product/${barcode}.json');
+      final json = jsonDecode(response.body).cast<String, dynamic>();
       setState(() {
         barcode = barcode;
+        jsonData = json;
       });
     } catch (e) {
       print(e);
