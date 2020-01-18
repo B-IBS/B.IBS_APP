@@ -3,14 +3,38 @@ import 'dart:convert';
 import 'package:barcode_scan/barcode_scan.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/services.dart';
 import 'package:http/http.dart' as http;
-import 'fodmap.dart';
-import 'dart:math';
+
+Widget levelIcon(int level, List<int> levelsLimits) {
+  var icon = Icon(
+    Icons.fiber_manual_record,
+    color: Colors.grey.shade400,
+  );
+  if (level >= levelsLimits[0])
+    icon = Icon(
+      Icons.fiber_manual_record,
+      color: Colors.green.shade400,
+    );
+  else if (level >= levelsLimits[1])
+    icon = Icon(
+      Icons.fiber_manual_record,
+      color: Colors.deepOrange.shade400,
+    );
+  else if (level >= levelsLimits[2])
+    icon = Icon(
+      Icons.fiber_manual_record,
+      color: Colors.red.shade400,
+    );
+  else if (level >= levelsLimits[3])
+    icon = Icon(
+      Icons.warning,
+      color: Colors.red.shade400,
+    );
+  return icon;
+}
 
 class FoodCheckerModule extends StatelessWidget {
-  @override
-  var history = [
+  final history = [
     {'title': "Pates", 'desc': 'Hier à 21h31', 'score': 20},
     {'title': "Lasagne", 'desc': 'Hier à 13h17', 'score': 40},
     {'title': "Steak frite", 'desc': 'Il y a 1 jour à 20h12', 'score': 80},
@@ -25,6 +49,7 @@ class FoodCheckerModule extends StatelessWidget {
     {'title': "4 fromages", 'desc': 'Le 14/01/2020 à 14h15', 'score': 25},
   ];
 
+  @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
@@ -61,33 +86,10 @@ class FoodCheckerModule extends StatelessWidget {
   }
 
   Widget historyEntry(String title, String desc, int score, Widget result) {
-    var color = Icon(
-      Icons.fiber_manual_record,
-      color: Colors.grey.shade400,
-    );
-    if (score >= 65)
-      color = Icon(
-        Icons.fiber_manual_record,
-        color: Colors.green.shade400,
-      );
-    else if (score >= 40)
-      color = Icon(
-        Icons.fiber_manual_record,
-        color: Colors.deepOrange.shade400,
-      );
-    else if (score >= 25)
-      color = Icon(
-        Icons.fiber_manual_record,
-        color: Colors.red.shade400,
-      );
-    else if (score >= 0)
-      color = Icon(
-        Icons.warning,
-        color: Colors.red.shade400,
-      );
+    var color = levelIcon(score, [65, 40, 25, 0]);
 
     return GestureDetector(
-      onTap: () => {print("WHAT'S BROOO")},
+      onTap: () { print('WHATS BROOO'); },
       child: Card(
         child: Column(
           mainAxisSize: MainAxisSize.min,
@@ -116,13 +118,13 @@ class SearchFoodState extends State<SearchFood> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-        appBar: AppBar(),
-        floatingActionButton: FloatingActionButton(
-          onPressed: scan,
-          child: Icon(Icons.camera_enhance),
-        ),
-        body: SafeArea(
-            child: Center(
+      appBar: AppBar(),
+      floatingActionButton: FloatingActionButton(
+        onPressed: scan,
+        child: Icon(Icons.camera_enhance),
+      ),
+      body: SafeArea(
+        child: Center(
           child: Container(
             child: Column(
               children: <Widget>[
@@ -136,7 +138,9 @@ class SearchFoodState extends State<SearchFood> {
               ],
             ),
           ),
-        )));
+        )
+      )
+    );
   }
 
   Widget productData() {
@@ -177,7 +181,9 @@ class SearchFoodState extends State<SearchFood> {
             Divider(),
             Row(
               children: <Widget>[
-                Text('Fodmap Level : ${fodmapLevel}'),
+                levelIcon(3 - fodmapLevel, [3, 2, 1, 0]),
+                VerticalDivider(),
+                Text('Fodmap Level : $fodmapLevel', style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold),),
               ],
             )
           ],
@@ -229,7 +235,7 @@ class SearchFoodState extends State<SearchFood> {
   Future scan() async {
     try {
       String barcode = await BarcodeScanner.scan();
-      final response = await http.Client().get('https://world.openfoodfacts.org/api/v0/product/${barcode}.json');
+      final response = await http.Client().get('https://world.openfoodfacts.org/api/v0/product/$barcode.json');
       final json = jsonDecode(response.body).cast<String, dynamic>();
       setState(() {
         barcode = barcode;
