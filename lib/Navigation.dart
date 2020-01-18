@@ -14,7 +14,7 @@ class NavigationScreenState extends State<NavigationScreen> {
   var currentIndex = 0;
   var _children = [
     HomeScreen(),
-    RecapScreen(),
+//    RecapScreen(),
     AnalysisScreen(),
     ModulesScreen(),
   ];
@@ -37,10 +37,11 @@ class NavigationScreenState extends State<NavigationScreen> {
               icon: Icon(Icons.home),
               title: Text('Home'),
             ),
-            BottomNavigationBarItem(
-              icon: Icon(Icons.access_time),
-              title: Text('Today'),
-            ),
+// TODO
+//            BottomNavigationBarItem(
+//              icon: Icon(Icons.access_time),
+//              title: Text('Today'),
+//            ),
             BottomNavigationBarItem(
               icon: Icon(Icons.show_chart),
               title: Text('Analysis'),

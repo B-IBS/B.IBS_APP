@@ -43,8 +43,13 @@ class Crisis {
   final DateTime date;
   final int intensity;
   final charts.Color color;
+  final bool twisting;
+  final bool pressure;
+  final bool burn;
+  final bool stabbing;
+  final bool bloating;
 
-  Crisis(this.date, this.intensity, Color color)
+  Crisis({this.date, this.intensity, Color color, this.twisting, this.pressure, this.burn, this.stabbing, this.bloating})
   : this.color = new charts.Color(r: color.red, g: color.green, b: color.blue, a: color.alpha);
 }
 
