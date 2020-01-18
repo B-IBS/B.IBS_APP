@@ -48,7 +48,6 @@ class LoginFormState extends State<LoginForm> {
               child: Column(
                 children: <Widget>[
                   formField(text: "Email", icon: Icon(Icons.person, color: Colors.grey[600]), controller: _loginController, obscure: false),
-                  clickableLink("forgot password ?", "/forgot-pass"),
                   formField(text: "Password", icon: Icon(Icons.lock, color: Colors.grey[600]), controller: _passwordController, obscure: true),
                   passwordConfirmField(text: "Confirm Password", icon: Icon(Icons.lock, color: Colors.grey[600]), controller: _passwordConfirmController, obscure: true),
                   Container(
@@ -82,6 +81,10 @@ class LoginFormState extends State<LoginForm> {
                       elevation: 7,
                       textColor: Colors.black,
                     ),
+                  ),
+                  Container(
+                    padding: EdgeInsets.only(bottom: 20),
+                    child: clickableLink("forgot password ?", "/forgot-pass"),
                   ),
                 ],
               ),
