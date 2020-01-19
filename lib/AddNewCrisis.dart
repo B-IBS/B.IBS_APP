@@ -55,79 +55,91 @@ class AddNewCrisisState extends State<AddNewCrisis> {
               stabbing: stabbing,
               bloating: bloating)
           );
+          intensityData.sort((a, b) => a.date.compareTo(b.date));
+          print(intensityData.map((e) => e.date.toIso8601String()));
           Navigator.pop(context);
         },
         child: Icon(Icons.done),
         backgroundColor: bibsGreen,
       ),
       body: SafeArea(
-        child: Container(
-          padding: EdgeInsets.symmetric(horizontal: 40, vertical: 5),
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: <Widget>[
-              Container(
-                child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: <Widget>[
-                    Text('Time of crisis', style: TextStyle(fontSize: 30, color: Colors.grey[800])),
-                    Row(
+        child: Scrollbar(
+          child: SingleChildScrollView(
+            child: Container(
+              padding: EdgeInsets.symmetric(horizontal: 40, vertical: 5),
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: <Widget>[
+                  Container(
+                    child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
                       children: <Widget>[
-                        TimeDropdown(
-                          labelText: 'Date',
-                          valueText: DateFormat.yMMMd().format(selectedDate),
-                          onPressed: () { selectDate(context); },
-                        ),
-                        VerticalDivider(),
-                        TimeDropdown(
-                          labelText: 'Time',
-                          valueText: selectedTime.format(context),
-                          onPressed: () { selectTime(context); },
-                        ),
-                      ],
-                    )
-                  ],
-                ),
-              ),
-              Divider(height: 50,),
-              Container(
-                child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: <Widget>[
-                    Text('Intensity', style: TextStyle(fontSize: 30, color: Colors.grey[800])),
-                    Padding(
-                        padding: EdgeInsets.only(top: 50),
-                        child: Slider(
-                            value: intensity,
-                            min: 0,
-                            max: 100,
-                            divisions: 10,
-                            label: "${(intensity / 10).floor()}",
-                            onChanged: (newIntensity) {
-                              setState(() {
-                                intensity = newIntensity;
-                              });
-                            }
+                        Text('Time of crisis', style: TextStyle(fontSize: 30, color: Colors.grey[800])),
+                        Row(
+                          children: <Widget>[
+                            TimeDropdown(
+                              labelText: 'Date',
+                              valueText: DateFormat.yMMMd().format(selectedDate),
+                              onPressed: () { selectDate(context); },
+                            ),
+                            VerticalDivider(),
+                            TimeDropdown(
+                              labelText: 'Time',
+                              valueText: selectedTime.format(context),
+                              onPressed: () { selectTime(context); },
+                            ),
+                          ],
                         )
-                    )
-                  ],
-                ),
+                      ],
+                    ),
+                  ),
+                  Divider(height: 50,),
+                  Container(
+                    child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: <Widget>[
+                        Text('Intensity', style: TextStyle(fontSize: 30, color: Colors.grey[800])),
+                        Padding(
+                            padding: EdgeInsets.only(top: 50),
+                            child: Slider(
+                                value: intensity,
+                                min: 0,
+                                max: 100,
+                                divisions: 10,
+                                label: "${(intensity / 10).floor()}",
+                                onChanged: (newIntensity) {
+                                  setState(() {
+                                    intensity = newIntensity;
+                                  });
+                                }
+                            )
+                        )
+                      ],
+                    ),
+                  ),
+                  ...painTypes(),
+                ],
               ),
-              Divider(),
-              radialButton('Twisting', twisting, (value) { setState(() {twisting = value;}); }),
-              Divider(),
-              radialButton('Pressure', pressure, (value) { setState(() {pressure = value;}); }),
-              Divider(),
-              radialButton('Burn', burn, (value) { setState(() {burn = value;}); }),
-              Divider(),
-              radialButton('Stabbing', stabbing, (value) { setState(() {stabbing = value;}); }),
-              Divider(),
-              radialButton('Bloating', bloating, (value) { setState(() {bloating = value;}); }),
-            ],
+            ),
           ),
         ),
       ),
     );
+  }
+
+  List<Widget> painTypes() {
+    return [
+      Divider(),
+      radialButton('Twisting', twisting, (value) { setState(() {twisting = value;}); }),
+      Divider(),
+      radialButton('Pressure', pressure, (value) { setState(() {pressure = value;}); }),
+      Divider(),
+      radialButton('Burn', burn, (value) { setState(() {burn = value;}); }),
+      Divider(),
+      radialButton('Stabbing', stabbing, (value) { setState(() {stabbing = value;}); }),
+      Divider(),
+      radialButton('Bloating', bloating, (value) { setState(() {bloating = value;}); }),
+    ];
   }
 
   Widget radialButton(String text, bool value, void Function(bool) changed) {

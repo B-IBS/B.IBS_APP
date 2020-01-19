@@ -1,6 +1,6 @@
 name: bibs
 description: B.IBS application
-version: 1.0.0+1
+version: 0.0.1+1
 
 environment:
   sdk: ">=2.2.0 <3.0.0"

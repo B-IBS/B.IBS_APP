@@ -64,9 +64,10 @@ class HistoryCharts extends StatefulWidget {
 class HistoryChartsState extends State<HistoryCharts> {
   Duration currentDuration = Duration(days: 7);
   DateTime windowMin = DateTime.now().subtract(Duration(days: 7));
-  DateTime windowMax = DateTime.now();
 
   List<Crisis> dataWindow() {
+    DateTime now = DateTime.now();
+    var windowMax = DateTime.utc(now.year, now.month, now.day, now.hour, now.minute, now.second);
     var filteredData = intensityData.sublist(0);
     filteredData.retainWhere((elem) => elem.date.isAfter(windowMin) && elem.date.isBefore(windowMax));
     return filteredData;
