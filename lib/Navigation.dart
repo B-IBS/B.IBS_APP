@@ -24,7 +24,6 @@ class NavigationScreenState extends State<NavigationScreen> {
     return WillPopScope(
       onWillPop: () => Future.value(false),
       child: Scaffold(
-        backgroundColor: Colors.white,
         body: SafeArea(
           child: _children[currentIndex]
         ),
