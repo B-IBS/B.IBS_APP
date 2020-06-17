@@ -5,9 +5,14 @@ import 'package:graphql_flutter/graphql_flutter.dart';
 class LoginScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      backgroundColor: Colors.black,
-      body: LoginForm()
+    final HttpLink link = HttpLink(uri: "http://9de95434f345.ngrok.io");
+    final ValueNotifier<GraphQLClient> client = ValueNotifier(GraphQLClient(
+      link: link,
+      cache: InMemoryCache(),
+    ));
+    return GraphQLProvider(
+      child: LoginForm(),
+      client: client,
     );
   }
 }
