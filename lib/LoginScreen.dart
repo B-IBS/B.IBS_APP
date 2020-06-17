@@ -19,7 +19,7 @@ class LoginScreen extends StatelessWidget {
 
 class LoginForm extends StatefulWidget {
   @override
-  LoginFormState createState () => LoginFormState();
+  LoginFormState createState() => LoginFormState();
 }
 
 class LoginFormState extends State<LoginForm> {
@@ -31,91 +31,143 @@ class LoginFormState extends State<LoginForm> {
 
   @override
   Widget build(BuildContext context) {
-    return SingleChildScrollView(
-      padding: EdgeInsets.only(bottom: 50),
-      child: Column(
-        mainAxisSize: MainAxisSize.min,
-        children: <Widget>[
-          Container(
-            padding: EdgeInsets.only(left: 75, right: 75, top: 50),
-            child: Image.asset(
-              'assets/images/LOGO_BIBS_150x150mm-02_WHITE.png',
-            ),
-          ),
-          Form(
-            key: _formKey,
-            child: Container(
-              padding: EdgeInsets.symmetric(horizontal: 20),
-              margin: EdgeInsets.symmetric(horizontal: 50),
-              decoration: BoxDecoration(
-                color: Colors.white,
-                borderRadius: BorderRadius.circular(20)
+    const query = '''query {helloworld}''';
+    return Scaffold(
+      body: SingleChildScrollView(
+          padding: EdgeInsets.only(bottom: 50),
+          child: Column(
+            mainAxisSize: MainAxisSize.min,
+            children: <Widget>[
+              Container(
+                padding: EdgeInsets.only(left: 75, right: 75, top: 50),
+                child: Image.asset(
+                  'assets/images/LOGO_BIBS_150x150mm-02_WHITE.png',
+                ),
               ),
-              child: Column(
-                children: <Widget>[
-                  formField(text: "Email", icon: Icon(Icons.person, color: Colors.grey[600]), controller: _loginController, obscure: false),
-                  formField(text: "Password", icon: Icon(Icons.lock, color: Colors.grey[600]), controller: _passwordController, obscure: true),
-                  passwordConfirmField(text: "Confirm Password", icon: Icon(Icons.lock, color: Colors.grey[600]), controller: _passwordConfirmController, obscure: true),
-                  Container(
-                    margin: EdgeInsets.only(top: 20),
-                    child: RaisedButton(
-                      padding: EdgeInsets.symmetric(horizontal: 30, vertical: 12),
-                      shape: RoundedRectangleBorder(
-                        borderRadius: BorderRadius.circular(20),
-                      ),
-                      onPressed: loginToServer,
-                      child: Text(_isSignin ? 'SIGNUP' : 'LOGIN', style: TextStyle(fontSize: 15, letterSpacing: 1.5),),
-                      color: Colors.black,
-                      elevation: 7,
-                      textColor: Colors.white,
+              Form(
+                  key: _formKey,
+                  child: Container(
+                    padding: EdgeInsets.symmetric(horizontal: 20),
+                    margin: EdgeInsets.symmetric(horizontal: 50),
+                    decoration: BoxDecoration(
+                        color: Colors.white,
+                        borderRadius: BorderRadius.circular(20)),
+                    child: Column(
+                      children: <Widget>[
+                        formField(
+                            text: "Email",
+                            icon: Icon(Icons.person, color: Colors.grey[600]),
+                            controller: _loginController,
+                            obscure: false),
+                        formField(
+                            text: "Password",
+                            icon: Icon(Icons.lock, color: Colors.grey[600]),
+                            controller: _passwordController,
+                            obscure: true),
+                        passwordConfirmField(
+                            text: "Confirm Password",
+                            icon: Icon(Icons.lock, color: Colors.grey[600]),
+                            controller: _passwordConfirmController,
+                            obscure: true),
+                        Container(
+                          margin: EdgeInsets.only(top: 20),
+                          child: RaisedButton(
+                            padding: EdgeInsets.symmetric(
+                                horizontal: 30, vertical: 12),
+                            shape: RoundedRectangleBorder(
+                              borderRadius: BorderRadius.circular(20),
+                            ),
+                            onPressed: loginToServer,
+                            child: Text(
+                              _isSignin ? 'SIGNUP' : 'LOGIN',
+                              style:
+                                  TextStyle(fontSize: 15, letterSpacing: 1.5),
+                            ),
+                            color: Colors.black,
+                            elevation: 7,
+                            textColor: Colors.white,
+                          ),
+                        ),
+                        Container(
+                          margin: EdgeInsets.only(bottom: 15, top: 5),
+                          child: RaisedButton(
+                            padding: EdgeInsets.symmetric(
+                                horizontal: 20, vertical: 10),
+                            shape: RoundedRectangleBorder(
+                              borderRadius: BorderRadius.circular(20),
+                            ),
+                            onPressed: () {
+                              setState(() {
+                                _isSignin = !_isSignin;
+                              });
+                            },
+                            child: Text(
+                              _isSignin
+                                  ? 'LOGIN TO ACCOUNT'
+                                  : 'CREATE AN ACCOUNT',
+                              style:
+                                  TextStyle(fontSize: 15, letterSpacing: 1.5),
+                            ),
+                            color: Colors.white,
+                            elevation: 7,
+                            textColor: Colors.black,
+                          ),
+                        ),
+                        Container(
+                          padding: EdgeInsets.only(bottom: 20),
+                          child: clickableLink(
+                              "forgot password ?", "/forgot-pass"),
+                        ),
+                      ],
                     ),
+                  )),
+              Container(
+                child: Query(
+                  options: QueryOptions(
+                    document: query,
                   ),
-                  Container(
-                    margin: EdgeInsets.only(bottom: 15, top: 5),
-                    child: RaisedButton(
-                      padding: EdgeInsets.symmetric(horizontal: 20, vertical: 10),
-                      shape: RoundedRectangleBorder(
-                        borderRadius: BorderRadius.circular(20),
-                      ),
-                      onPressed: () {
-                        setState(() {
-                          _isSignin = !_isSignin;
-                        });
-                      },
-                      child: Text(_isSignin ? 'LOGIN TO ACCOUNT' : 'CREATE AN ACCOUNT', style: TextStyle(fontSize: 15, letterSpacing: 1.5),),
-                      color: Colors.white,
-                      elevation: 7,
-                      textColor: Colors.black,
-                    ),
-                  ),
-                  Container(
-                    padding: EdgeInsets.only(bottom: 20),
-                    child: clickableLink("forgot password ?", "/forgot-pass"),
-                  ),
-                ],
+                  builder: (QueryResult result,
+                      {VoidCallback refetch, FetchMore fetchMore}) {
+                    print("RESUUUUUUULT :");
+                    print(result.data);
+                    if (result.data == null) {
+                      return Text("No service available");
+                    }
+
+                    if (result.loading) {
+                      return Text('Searching for available service');
+                    }
+
+                    return Text(result.data["helloworld"]);
+                  },
+                ),
               ),
-            )
-          )
-        ],
-      )
+            ],
+          )),
     );
   }
 
-  Widget passwordConfirmField({String text, Icon icon, TextEditingController controller, bool obscure}) {
+  Widget passwordConfirmField(
+      {String text,
+      Icon icon,
+      TextEditingController controller,
+      bool obscure}) {
     if (_isSignin) {
-      return (
-        formField(text: text, icon: icon, controller: controller, obscure: obscure)
-      );
+      return (formField(
+          text: text, icon: icon, controller: controller, obscure: obscure));
     } else {
-      return (
-        Divider(height: 20,)
-      );
+      return (Divider(
+        height: 20,
+      ));
     }
   }
 
-  Widget formField({String text, Icon icon, TextEditingController controller, bool obscure}) {
-    return (
-      Container(
+  Widget formField(
+      {String text,
+      Icon icon,
+      TextEditingController controller,
+      bool obscure}) {
+    return (Container(
         decoration: BoxDecoration(
           color: Colors.grey[350],
           borderRadius: BorderRadius.circular(20),
@@ -131,9 +183,7 @@ class LoginFormState extends State<LoginForm> {
             labelText: text,
             prefixIcon: icon,
           ),
-        )
-      )
-    );
+        )));
   }
 
   void loginToServer() {
