@@ -3,6 +3,7 @@ import 'package:bibs/colors.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:charts_flutter/flutter.dart' as charts;
+import 'package:graphql_flutter/graphql_flutter.dart';
 
 //TODO Save to local, Struct, and other intensity levels
 var intensityData = <Crisis>[
@@ -15,18 +16,55 @@ var intensityData = <Crisis>[
 class AnalysisScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
+    final HttpLink link = HttpLink(uri: "http://20d6c66915fc.ngrok.io");
+    final ValueNotifier<GraphQLClient> client = ValueNotifier(GraphQLClient(
+      link: link,
+      cache: InMemoryCache(),
+    ));
+    return GraphQLProvider(
+      child: AnalysisScreenDisplay(),
+      client: client,
+    );
+  }
+}
+
+class AnalysisScreenDisplay extends StatelessWidget {
+  @override
+  Widget build(BuildContext context) {
+    const query = '''query {helloworld}''';
     return Scaffold(
       body: Container(
         child: SingleChildScrollView(
-          child: Column(
-            children: <Widget>[
-              Container(
-                padding: EdgeInsets.symmetric(vertical: 20),
-                child: Text('Crisis analysis', style: TextStyle(fontSize: 30, fontWeight: FontWeight.w300),),
-              ),
-              HistoryCharts(height: 400),
-            ],
-          )
+            child: Column(
+              children: <Widget>[
+                Container(
+                  padding: EdgeInsets.symmetric(vertical: 20),
+                  child: Text('Crisis analysis', style: TextStyle(fontSize: 30, fontWeight: FontWeight.w300),),
+                ),
+                HistoryCharts(height: 400),
+                Container(
+                  child: Query(
+                    options: QueryOptions(
+                      document: query,
+                    ),
+                    builder: (QueryResult result,
+                        {VoidCallback refetch, FetchMore fetchMore}) {
+                      print("RESUUUUUUULT :");
+                      print(result.data);
+                      if (result.data == null) {
+                        return Text("No service available");
+                      }
+
+                      if (result.loading) {
+                        return Text('Searching for available service');
+                      }
+
+                      return Text(result.data["helloworld"]);
+                    },
+                  ),
+                ),
+              ],
+            )
         ),
       ),
       floatingActionButton: FloatingActionButton(
@@ -50,7 +88,7 @@ class Crisis {
   final bool bloating;
 
   Crisis({this.date, this.intensity, Color color, this.twisting, this.pressure, this.burn, this.stabbing, this.bloating})
-  : this.color = new charts.Color(r: color.red, g: color.green, b: color.blue, a: color.alpha);
+      : this.color = new charts.Color(r: color.red, g: color.green, b: color.blue, a: color.alpha);
 }
 
 class HistoryCharts extends StatefulWidget {
@@ -86,52 +124,52 @@ class HistoryChartsState extends State<HistoryCharts> {
     ];
 
     return Column(
-      children: <Widget>[
-        Row(
-          mainAxisAlignment: MainAxisAlignment.spaceAround,
-          children: <Widget>[
-            durationButton(Duration(days: 365), "Year"),
-            durationButton(Duration(days: 31 * 6), "6 months"),
-            durationButton(Duration(days: 31), "Month"),
-            durationButton(Duration(days: 7), "Week"),
-            durationButton(Duration(days: 1), "Today"),
-          ],
-        ),
-        Container(
-          padding: EdgeInsets.only(bottom: 20),
-          child: SizedBox(
-            height: widget.height,
-            child: charts.TimeSeriesChart(
-              seriesList,
-              defaultRenderer: charts.LineRendererConfig(includeArea: true, stacked: true),
-              animate: true,
-            )
+        children: <Widget>[
+          Row(
+            mainAxisAlignment: MainAxisAlignment.spaceAround,
+            children: <Widget>[
+              durationButton(Duration(days: 365), "Year"),
+              durationButton(Duration(days: 31 * 6), "6 months"),
+              durationButton(Duration(days: 31), "Month"),
+              durationButton(Duration(days: 7), "Week"),
+              durationButton(Duration(days: 1), "Today"),
+            ],
           ),
-        ),
-      ]
+          Container(
+            padding: EdgeInsets.only(bottom: 20),
+            child: SizedBox(
+                height: widget.height,
+                child: charts.TimeSeriesChart(
+                  seriesList,
+                  defaultRenderer: charts.LineRendererConfig(includeArea: true, stacked: true),
+                  animate: true,
+                )
+            ),
+          ),
+        ]
     );
   }
 
   Widget durationButton(Duration duration, String text) {
     return Expanded(
-      child: InkWell(
-        onTap: () {
-          setState(() {
-            windowMin = DateTime.now().subtract(duration);
-            currentDuration = duration;
-          });
-        },
-        child: Container(
-          decoration: BoxDecoration(
-            border: Border.all(color: bibsGreen),
-            color: duration == currentDuration ? bibsGreen : Colors.transparent
-          ),
-          padding: EdgeInsets.symmetric(vertical: 10, horizontal: 5),
-          child: Center(
-            child: Text(text,)
-          )
+        child: InkWell(
+            onTap: () {
+              setState(() {
+                windowMin = DateTime.now().subtract(duration);
+                currentDuration = duration;
+              });
+            },
+            child: Container(
+                decoration: BoxDecoration(
+                    border: Border.all(color: bibsGreen),
+                    color: duration == currentDuration ? bibsGreen : Colors.transparent
+                ),
+                padding: EdgeInsets.symmetric(vertical: 10, horizontal: 5),
+                child: Center(
+                    child: Text(text,)
+                )
+            )
         )
-      )
     );
   }
 }
