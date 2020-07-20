@@ -4,7 +4,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:charts_flutter/flutter.dart' as charts;
 
-//TODO Save to local, Struct, and other intensity levels
+//TODO Save to local, struct, and other intensity levels
 var intensityData = <Crisis>[
 //  new Crisis(DateTime.utc(2019, 12, 1), 5, bibsGreen),
 //  new Crisis(DateTime.utc(2019, 12, 5), 7, bibsGreen),
